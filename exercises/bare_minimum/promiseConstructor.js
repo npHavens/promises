@@ -20,7 +20,7 @@ var pluckFirstLineFromFileAsync = function(filePath) {
     });
     //console.log(result);
     //resolve(result);
-  }).then().catch();
+  });
 };
 
 // This function should retrieve the status code of a GET request to `url`
