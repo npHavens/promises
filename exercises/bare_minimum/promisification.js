@@ -67,7 +67,6 @@ var readFileAndMakeItFunnyAsync = function(filePath) {
             return line + ' lol';
           })
           .join('\n');
-
         resolve(funnyFile);
       }
     });

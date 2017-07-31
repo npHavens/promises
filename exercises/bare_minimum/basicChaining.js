@@ -10,11 +10,33 @@
 
 var fs = require('fs');
 var Promise = require('bluebird');
-
-
+//Promise.promisifyAll(fs);
+var getGitHubProfile = require('./promisification.js').getGitHubProfileAsync;
 
 var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
-  // TODO
+  return new Promise(function(resolve, reject) {
+    fs.readFile(readFilePath, 'utf8', function(err, file) {
+      if (err) {
+        reject(err);
+      } else {
+        var userName = file.split('\n')[0];
+        resolve(userName);
+      }
+    });
+  }).then(function(userName) {
+    //console.log(userName);
+    getGitHubProfile(userName).then(function(profile) {
+      return new Promise(function(resolve, reject) {
+        fs.writeFile(writeFilePath, JSON.stringify(profile), 'utf8', function(err, file) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve('file written');
+          }
+        });
+      });
+    });
+  });
 };
 
 // Export these functions so we can test them
